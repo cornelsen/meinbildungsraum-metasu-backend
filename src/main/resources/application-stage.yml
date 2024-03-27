@@ -1,0 +1,9 @@
+springdoc:
+  api-docs:
+    enabled: false
+
+logging:
+  level:
+    de.cornelsen.nep: debug
+
+tier: stage

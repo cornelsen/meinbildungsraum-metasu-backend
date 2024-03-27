@@ -1,0 +1,51 @@
+{
+  "debug": true,
+  "transportLibrary": {
+    "baseUrl": "",
+    "platformClientId": "",
+    "platformClientSecret": ""
+  },
+  "database": {
+    "connectionString": "",
+    "dbName": ""
+  },
+  "infrastructure": {
+    "httpServer": {
+      "enabled": true,
+      "cors": {
+        "origin": false
+      },
+      "apiKey": ""
+    }
+  },
+  "modules": {
+    "sync": {
+      "enabled": true,
+      "interval": 60
+    },
+    "autoAcceptRelationshipCreationChanges": {
+      "enabled": false,
+      "responseContent": {}
+    },
+    "coreHttpApi": {
+      "enabled": true,
+      "docs": {
+        "enabled": true
+      }
+    },
+    "webhooksV2": {
+      "enabled": true,
+      "targets": {
+        "event-receiver": {
+          "url": "http://host.docker.internal:8080/callback/enmeshed/outgoing-request-created-and-completed"
+        }
+      },
+      "webhooks": [
+        {
+          "triggers": ["consumption.outgoingRequestCreatedAndCompleted"],
+          "target": "event-receiver"
+        }
+      ]
+    }
+  }
+}

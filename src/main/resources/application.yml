@@ -1,0 +1,92 @@
+spring:
+  application:
+    name: national-education-platform
+  profiles:
+    active:
+      - ${tier}
+  datasource:
+    username: ${postgres.user}
+    password: ${postgres.password}
+    url: jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.database}
+    driverClassName: org.postgresql.Driver
+    hikari:
+      schema: metasu
+  flyway:
+    validate-on-migrate: false
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: ${keycloak.clientId}
+            client-secret: ${keycloak.clientSecret}
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - nbp-enmeshed-address
+            redirect-uri: "${application.frontend-url}/login/oauth2/code/${keycloak.clientId}"
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.host}/realms/${keycloak.realm}
+  servlet.multipart:
+    max-file-size: 10MB
+    max-request-size: 10MB
+
+keycloak:
+  host:
+  realm:
+  clientId:
+  clientSecret:
+  logoutSuccessUrl: ${keycloak.host}/realms/${keycloak.realm}/protocol/openid-connect/logout
+
+postgres:
+  user:
+  host:
+  port:
+  database:
+
+tier: local
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+  api-docs:
+    groups:
+      enabled: true
+
+management:
+  info.env.enabled: true
+  endpoints.web.exposure.include: 'health,info,metrics,prometheus'
+  endpoint:
+    health:
+      show-details: never
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      applicationVersion: ${info.application-version:-}
+      tier: ${info.tier}
+      buildNr: ${info.build-nr:-}
+      buildTimestamp: ${info.build-timestamp:-}
+      instanceId: ${info.instanceId}
+      containerId: ${hostname:-}
+info:
+  application-name: ${spring.application.name}
+  application-version: ${project.version}
+  tier: ${tier}
+  build-nr:
+  build-timestamp:
+  instanceId: ${random.int[100,10000]}
+
+application:
+  frontend-url: http://localhost:8080
+  just-logged-users: true
+  request-timeout: 8  #in sec
+  subject-suffix: /subjects
+  search-suffix: /resources
+  details-suffix: /{itemId}/details
+  duf-provider-name: DUF
+  admin-users:
+  nmshd:
+    enabled: true
+    connector-api-path: http://localhost/api/v2
+    connector-api-key:

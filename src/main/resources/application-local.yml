@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    show-sql: true
+
+keycloak:
+  host: http://localhost
+
+postgres:
+  user:
+  password:
+
+logging:
+  level:
+    de.cornelsen.nep: debug
+
+application:
+  nmshd:
+    enabled: false

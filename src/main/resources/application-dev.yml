@@ -1,0 +1,13 @@
+logging:
+  level:
+    de.cornelsen.nep: debug
+    org.springframework.security: info
+    org.hibernate: error
+
+tier: dev
+application:
+  nmshd:
+    enabled: false
+
+keycloak:
+  logoutSuccessUrl: ${keycloak.host}/realms/${keycloak.realm}/protocol/openid-connect/logout?post_logout_redirect_uri=${application.frontend-url}&client_id=${keycloak.clientId}
